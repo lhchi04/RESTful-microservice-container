@@ -12,13 +12,13 @@ This is a simple RESTful microservice built using Flask, which allows you to man
 1. Clone this repository:
 
     ```bash
-    git clone https://github.com/your_username/library-management-api.git
+    git clone https://github.com/lhchi04/RESTful-microservice-container.git
     ```
 
 2. Navigate to the project directory:
 
     ```bash
-    cd library-management-api
+    cd RESTful-microservice-container
     ```
 
 3. Build the Docker image:
