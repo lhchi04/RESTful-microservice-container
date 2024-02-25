@@ -5,12 +5,15 @@ from flask_swagger_ui import get_swaggerui_blueprint
 app = Flask(__name__)
 api = Api(app)
 
-# Sample data (dictionary of books)
-books = {}
+# Sample data (list of books)
+books = []
 
-# Function to generate a unique ID for each book
-def generate_book_id():
-    return str(len(books) + 1)
+# Function to search for a book by index
+def get_book_by_index(index):
+    try:
+        return books[int(index)]
+    except IndexError:
+        return None
 
 @app.route('/books', methods=['GET'])
 def get_books():
@@ -19,37 +22,39 @@ def get_books():
 @app.route('/books', methods=['POST'])
 def add_book():
     new_book = request.json
-    book_id = generate_book_id()
-    books[book_id] = new_book
-    return jsonify({'id': book_id, 'book': new_book})
+    books.append(new_book)
+    return jsonify({'index': len(books) - 1, 'book': new_book})
 
-@app.route('/books/<book_id>', methods=['GET'])
-def get_book(book_id):
-    if book_id in books:
-        return jsonify(books[book_id])
+@app.route('/books/<index>', methods=['GET'])
+def get_book(index):
+    book = get_book_by_index(index)
+    if book is not None:
+        return jsonify(book)
     else:
         return jsonify({'error': 'Book not found'}), 404
 
-@app.route('/books/<book_id>', methods=['PUT'])
-def update_book(book_id):
-    if book_id in books:
+@app.route('/books/<index>', methods=['PUT'])
+def update_book(index):
+    book = get_book_by_index(index)
+    if book is not None:
         updated_book = request.json
-        books[book_id] = updated_book
-        return jsonify({'id': book_id, 'book': updated_book})
+        books[int(index)] = updated_book
+        return jsonify({'index': index, 'book': updated_book})
     else:
         return jsonify({'error': 'Book not found'}), 404
 
-@app.route('/books/<book_id>', methods=['DELETE'])
-def delete_book(book_id):
-    if book_id in books:
-        del books[book_id]
+@app.route('/books/<index>', methods=['DELETE'])
+def delete_book(index):
+    book = get_book_by_index(index)
+    if book is not None:
+        del books[int(index)]
         return jsonify({'message': 'Book deleted'})
     else:
         return jsonify({'error': 'Book not found'}), 404
 
 # Swagger UI configuration
 SWAGGER_URL = '/swagger'
-API_URL = '/swagger.json'
+API_URL = '/static/swagger.json'
 
 swaggerui_blueprint = get_swaggerui_blueprint(
     SWAGGER_URL,
@@ -61,4 +66,4 @@ swaggerui_blueprint = get_swaggerui_blueprint(
 app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True)
