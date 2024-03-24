@@ -19,3 +19,10 @@ spec:
         image: lhchi04/my-library-app:v0.0.1
         ports:
         - containerPort: 80
+        env:
+          - name: DATA_MICROSERVICE
+            valueFrom:
+              configMapKeyRef:
+                name: my-config-map
+                key: DATA_MICROSERVICE
+

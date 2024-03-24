@@ -1,3 +1,6 @@
+import os
+import json
+import logging
 from flask import Flask, request, jsonify
 from flask_restful import Resource, Api, reqparse, abort
 from flask_swagger_ui import get_swaggerui_blueprint
@@ -14,6 +17,23 @@ def get_book_by_index(index):
         return books[int(index)]
     except IndexError:
         return None
+
+# Add /config route
+@app.route('/config', methods=['GET'])
+def get_config():
+    config_data = {key: value for key, value in os.environ.items()}
+    app.logger.info("Config data: %s", json.dumps(config_data))
+    print('Environment data:', config_data)
+    return jsonify(config_data)
+
+# Add /fib route
+@app.route('/fib', methods=['GET'])
+def get_fibonacci():
+    length = int(request.args.get('length', 10))
+    fibonacci_sequence = [0, 1]
+    for i in range(2, length):
+        fibonacci_sequence.append(fibonacci_sequence[i-1] + fibonacci_sequence[i-2])
+    return jsonify(fibonacci_sequence)
 
 @app.route('/books', methods=['GET'])
 def get_books():
@@ -66,4 +86,4 @@ swaggerui_blueprint = get_swaggerui_blueprint(
 app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=31234)

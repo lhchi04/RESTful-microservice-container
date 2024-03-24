@@ -229,7 +229,49 @@
           }
         }
       }
-    }
+    },
+    "/config": {
+      "get": {
+        "summary": "Get environment variables",
+        "description": "Returns a JSON object containing environment variables.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/fib": {
+      "get": {
+        "summary": "Get Fibonacci sequence",
+        "description": "Returns a JSON array containing Fibonacci sequence.",
+        "parameters": [
+          {
+            "name": "length",
+            "in": "query",
+            "description": "Length of the Fibonacci sequence",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          }
+        }
+      }
+    }    
   }
 }
  
