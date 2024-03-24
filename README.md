@@ -112,13 +112,13 @@ Here are some examples:
     ```
 3. Access the application using the NodePort, here are some examples:
     ```bash
-    curl [node_ip]:31234/config
+    curl "http://localhost:31234/config"
     ```
     ```bash
-    curl [node_ip]:31234/fib
+    curl "http://localhost:31234/fib"
     ```
     ```bash
-    curl [node_ip]:31234/fib?length=18
+    curl "http://localhost:31234/fib?length=18"
     ```
 
 
