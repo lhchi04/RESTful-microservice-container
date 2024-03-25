@@ -18,7 +18,7 @@ spec:
       - name: my-app-container
         image: lhchi04/my-library-app:v0.0.1
         ports:
-        - containerPort: 80
+        - containerPort: 5000
         env:
           - name: DATA_MICROSERVICE
             valueFrom:

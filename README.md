@@ -30,10 +30,10 @@ This is a simple RESTful microservice built using Flask, which allows you to man
 4. Run the Docker container:
 
     ```bash
-    docker run -d -p 2369:2369 my-library-app:v0.0.1
+    docker run -d -p 80:5000 my-library-app:v0.0.1
     ```
 
-    The application should now be running and accessible at http://localhost:2369/swagger.
+    The application should now be running and accessible at http://localhost/swagger.
 
 ## API Endpoints
 
@@ -94,7 +94,7 @@ This is a simple RESTful microservice built using Flask, which allows you to man
 
 ### Swagger UI
 
-You can also interact with the API using Swagger UI. Visit http://localhost:2369/swagger to explore the API documentation interactively.
+You can also interact with the API using Swagger UI. Visit http://localhost:/swagger to explore the API documentation interactively.
 
 ## Kubernetes Deployment
 
