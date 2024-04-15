@@ -1,0 +1,38 @@
+name: Build and Test RESTful Service
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Build the container image
+      run: docker build -t my-library-app:v0.0.1 .
+      
+    - name: Run the container
+      run: docker run -d -p 80:5000 my-library-app:v0.0.1
+      
+    - name: Test the RESTful service
+      run: |
+        # Wait for the container to start up
+        sleep 5
+        
+        # Send a GET request to the /fib endpoint of the service
+        response=$(curl http://localhost:5000/fib)
+        
+        # Check that the response is as expected
+        expected_response="[0,1,1,2,3,5,8,13,21,34]"
+        if [ "$response" == "$expected_response" ]; then
+          echo "Test passed!"
+        else
+          echo "Test failed. Expected '$expected_response', got '$response'"
+          exit 1
+        fi
