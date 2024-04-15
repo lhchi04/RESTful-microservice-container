@@ -26,7 +26,7 @@ jobs:
         sleep 5
         
         # Send a GET request to the /fib endpoint of the service
-        response=$(curl http://localhost:5000/fib)
+        response=$(curl http://localhost/fib)
         
         # Check that the response is as expected
         expected_response="[0,1,1,2,3,5,8,13,21,34]"
